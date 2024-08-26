@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShoeMart.Models;
 using ShoeMart.Models.Entities;
@@ -24,6 +25,7 @@ namespace ShoeMart.Controllers
         }
 
         // By default
+        [Authorize]
         public IActionResult Privacy()
         {
             return View();
