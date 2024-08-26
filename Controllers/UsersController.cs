@@ -90,5 +90,14 @@ namespace ShoeMart.Controllers
 
             return View(user); 
         }
-	}
+       public IActionResult Logout()
+        {
+            // delete all cookies
+            for (int i = 0; i < Request.Cookies.Count; i++)
+            {
+                Response.Cookies.Delete(Request.Cookies.Keys.ElementAt(i));
+            }
+            return RedirectToAction("Index", "Home");
+        }
+    }
 }
