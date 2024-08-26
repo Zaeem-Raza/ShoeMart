@@ -45,19 +45,6 @@ namespace ShoeMart.Controllers
                     p.Name.Contains(search, StringComparison.OrdinalIgnoreCase)
                 );
             }
-            //// Checking if the user is logged in or not
-            //bool isUserLoggedIn = HttpContext.Request.Cookies.ContainsKey("User");
-            //if (!isUserLoggedIn)
-            //{
-            //    return RedirectToAction("Login", "Users");
-            //}
-
-            //// Extracting information from the cookie
-            //string cookie = HttpContext.Request.Cookies["User"];
-            //string[] data = cookie.Split('|');
-            //string id = Convert.ToString(data[0]);
-            //string name = Convert.ToString(data[1]);
-            //string role = Convert.ToString(data[2]);
 
             // Extracting the User Image
             var user=await _userManager.GetUserAsync(User);
