@@ -1,0 +1,139 @@
+﻿<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+
+@model IEnumerable<ShoeMart.Models.Entities.Products>;
+
+@{
+    int products = Model.Count();
+    string totalProducts = products <= 9 ? $"0{Convert.ToString(Model.Count())}" : Convert.ToString(Model.Count());
+}
+
+@if (products <= 0)
+{
+    <h1 class="text-3xl font-bold">Sorry, there are no products!!!</h1>
+}
+else
+{
+    @foreach (var product in Model)
+    {
+        string shortDescription = product.Description.Substring(0, 50);
+        <div id="@product.Id" class="card w-full md:max-w-md lg:max-w-xs overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 h-fit border-2 hover:cursor-pointer hover:mt-2 hover:scale-95 transition-all">
+            <a href="/Products/ProductDetails/@product.Id">
+                <div class="px-4 py-2">
+                    <h1 class="text-xl font-bold text-gray-800 uppercase dark:text-white">@product.Name</h1>
+                    <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">@shortDescription...</p>
+                </div>
+
+                <img class="object-cover w-full h-48 mt-2" src="@product.Image" alt="@product.Name">
+            </a>
+                <div class="flex items-center justify-between px-4 py-4">
+                    @if (ViewBag.Role == "Admin")
+                    {
+                        <button class="button">
+                            <a href="/Products/Update/@product.Id">Update</a>
+                        </button>
+                        <button class="deleteBtn button">
+                          Delete
+                        </button>
+                    }
+                    else
+                    {
+                        <h1 class="text-lg font-bold text-black">$@product.Price</h1>
+                        <button class="cartBtn button">
+                            Add to cart
+                        </button>
+                    }
+                </div>
+        </div>
+    }
+}
+
+<script>
+    $(document).ready(function () 
+    {   
+        $(".cartBtn").click(function () 
+        {   
+            const divElement = $(this).closest(".card");
+            const divId = divElement.attr("id");
+            const cartIcon = $("#cartIcon");
+            
+
+            $.ajax({
+                type:"POST",
+                url:"/Products/AddToCart",
+                data: { id: divId },
+                success: function (response) {
+                    const textToStore = response.totalItems <= 9 ? `0${response.totalItems}` : `${response.totalItems}`;
+                    cartIcon.text(textToStore);
+                },
+                error: function (response) {
+                    console.log(response.result);
+                }
+            })
+        })
+    })
+</script>
+
+
+
+ <script>
+    $(document).ready(function () {
+        $(".deleteBtn").click(function () {
+            const divElement = $(this).closest(".card");
+            const divId = divElement.attr("id");
+            const totalProductsElement = $("#totalProducts");
+            const filtersForm = $("#filtersForm");
+            const serializedData = filtersForm.serialize();
+
+            // Sending an AJAX request to delete the product from the db and the DOM
+            $.ajax({
+                type: "POST",
+                url: "/Products/Delete",
+                data: { id: divId },
+                success: function (response) {
+                    if (response.result) {
+                        // Remove the product from the DOM
+                        divElement.remove();
+
+                        // After deleting, reapply the filters to get the updated product list and count
+                        $.ajax({
+                            type: "GET",
+                            url: "/Products/GetFilteredProductsCount",
+                            data: serializedData,
+                            success: function (countResponse) {
+                                const totalProducts = countResponse.result || 0;
+
+                                if (totalProducts <= 0) {
+                                    totalProductsElement.html(`<strong>Total Products:</strong> 00`);
+                                    $("#productGrid").html("<h1 class='text-3xl font-bold'>Sorry, there are no products!!!</h1>");
+                                } else {
+                                    totalProductsElement.html(`<strong>Total Products:</strong> ${totalProducts.toString().padStart(2, '0')}`);
+
+                                    // Re-fetch the filtered products and update the grid
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/Products/GetFilteredProducts",
+                                        data: serializedData,
+                                        success: function (response) {
+                                            $("#productGrid").html(response);
+                                        },
+                                        error: function (response) {
+                                            console.log("Error: ", response);
+                                        }
+                                    });
+                                }
+                            },
+                            error: function (response) {
+                                console.log("Error:", response);
+                            }
+                        });
+                    }
+                },
+                error: function (response) {
+                    alert("Product can't be deleted!!!");
+                }
+            });
+        });
+    });
+
+</script>                           

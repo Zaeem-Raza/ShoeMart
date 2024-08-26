@@ -1,8 +1,60 @@
-﻿@{
+﻿@model IEnumerable<ShoeMart.Models.Entities.Products>;
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@* Hero Section *@
+<section class="min-h-screen text-black body-font flex flex-col">
+    <div class="flex flex-col">
+        @* Header *@
+        <header>
+            <div class="container flex mx-auto flex-wrap p-5 md:flex-row items-center justify-between">
+                <span class="flex gap-2 title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+                    <span class="ml-3 text-xl font-semibold">ShoeMart</span>
+                    <img class="w-auto h-7" src="/images/running-shoes.png" alt="fdghf">
+                </span>
+                <nav class="space-x-2">
+                    <button type="submit" class="button">
+                        <a href="/Identity/Account/Login">
+                            Login
+                        </a>
+                    </button>
+                    <button type="submit" class="button">
+                        <a href="/Identity/Account/Register">
+                            Sign up
+
+                        </a>
+                    </button>
+                </nav>
+            </div>
+        </header>
+
+       @* Main Section *@
+        <div class="container py-32 flex items-center justify-center flex-col">
+            <div class="text-center lg:max-w-3xl w-full ">
+                <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900 ">Step into Style,<br /> One Shoe at a time with ShoeMart!</h1>
+                <p class="mb-8 leading-relaxed">Welcome to ShoeMart, your ultimate destination for stylish and comfortable footwear. Whether you're searching for the latest trends or timeless classics, we offer a diverse range of shoes to suit every taste and occasion. </p>
+                @* <!-- Search bar and button -->
+                <form acion="" method="post" class="flex items-center max-w-lg mx-auto gap-2">
+                    <div class="w-full">  
+                      <input type="text" id="simple-search" name="search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search shoes..." required />
+                    </div>
+                    <button type="submit" class="button px-6 py-[12px] text-sm font-medium text-white bg-black rounded-lg focus:ring-4 focus:outline-none dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                       Search
+                    </button>
+                </form> *@
+                <button class="button px-6 py-[12px] text-sm font-medium text-white bg-black rounded-lg focus:ring-4 focus:outline-none dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <a href="/Products/Index">Browse</a>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    @if(Model.Count() > 0)
+    {
+        @* Featured Products *@
+        @Html.Partial("_FeaturedProductsView", Model)
+    }
+    @* FootSection *@
+    @Html.Partial("_FooterView")
+</section>

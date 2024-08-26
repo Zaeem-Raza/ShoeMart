@@ -1,0 +1,80 @@
+﻿@page
+@model ShoeMart3.Areas.Identity.Pages.Account.RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<section class="h-screen flex justify-center items-center bg-white">
+    <div class="w-full max-w-md mx-auto bg-white rounded-lg shadow-xl dark:bg-gray-800 space-y-2">
+        <div class="px-4 py-6">
+            <h1>@ViewData["Title"]</h1>
+            @* Avatar *@
+            <div class="flex items-center justify-center">
+                <img class="object-cover w-12 h-12 rounded-full" src="~/images/running-shoes.png" alt="Avatar" />
+            </div>
+            <h3 class="mt-3 text-xl font-medium text-center text-black dark:text-gray-200">Welcome</h3>
+            <p class="mt-1 text-center text-gray-500 dark:text-gray-400">Create new account</p>
+
+            @* Form *@
+            <form method="post" asp-route-returnUrl="@Model.ReturnUrl" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-red-500 text-sm"></div>
+
+                @* Name *@
+                <div class="w-full mt-4">
+                    <input asp-for="Input.UserName" class="form-input-style" placeholder="Name" />
+                    <span asp-validation-for="Input.UserName" class="text-red-500 text-sm"></span>
+                </div>
+
+                @* Email *@
+                <div class="w-full mt-4">
+                    <input asp-for="Input.Email" class="form-input-style" placeholder="Email Address" />
+                    <span asp-validation-for="Input.Email" class="text-red-500 text-sm"></span>
+                </div>
+
+                @* Password *@
+                <div class="w-full mt-4">
+                    <input asp-for="Input.Password" class="form-input-style" placeholder="Password" />
+                    <span asp-validation-for="Input.Password" class="text-red-500 text-sm"></span>
+                </div>
+
+                @* Confirm Password *@
+                <div class="w-full mt-4">
+                    <input asp-for="Input.ConfirmPassword" class="form-input-style" placeholder="Confirm Password" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-red-500 text-sm"></span>
+                </div>
+
+                @* Phone Number *@
+                <div class="w-full mt-4">
+                    <input asp-for="Input.PhoneNumber" class="form-input-style" placeholder="Phone Number" />
+                    <span asp-validation-for="Input.PhoneNumber" class="text-red-500 text-sm"></span>
+                </div>
+
+                @* Address *@
+                <div class="w-full mt-4">
+                    <input asp-for="Input.Address" class="form-input-style" placeholder="Address" />
+                    <span asp-validation-for="Input.Address" class="text-red-500 text-sm"></span>
+                </div>
+
+                @* Profile Picture *@
+                <div class="w-full mt-4">
+                    <input asp-for="Input.ProfilePicture" type="file" class="form-input-style" accept="image/*" />
+                    <span asp-validation-for="Input.ProfilePicture" class="text-red-500 text-sm"></span>
+                </div>
+
+                <div class="flex items-center justify-end mt-4">
+                    <button type="submit" class="button">
+                        Sign Up
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="flex items-center justify-center py-4 text-center bg-gray-50 dark:bg-gray-700">
+            <span class="text-sm text-gray-600 dark:text-gray-200">Already have an account? </span>
+            <a href="/Identity/Account/Login" class="mx-2 text-sm font-bold text-black-500 dark:text-blue-400 hover:underline">Login</a>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

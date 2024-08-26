@@ -1,23 +1,29 @@
 using Microsoft.AspNetCore.Mvc;
+using ShoeMart.Models;
+using ShoeMart.Models.Entities;
+using ShoeMart.Models.Interfaces;
 using ShoeMart3.Models;
 using System.Diagnostics;
 
-namespace ShoeMart3.Controllers
+namespace ShoeMart.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        // Landing / Home Page action method
+        private IProductRepository repo;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IProductRepository _repo)
         {
-            _logger = logger;
+            repo = _repo;
         }
 
         public IActionResult Index()
         {
-            return View();
+            IEnumerable<Products> products = repo.GetFeaturedItems();
+            return View(products);
         }
 
+        // By default
         public IActionResult Privacy()
         {
             return View();
@@ -28,5 +34,7 @@ namespace ShoeMart3.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
     }
 }

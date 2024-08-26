@@ -1,0 +1,233 @@
+﻿<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+@{
+    int productsCount = Convert.ToInt32(ViewBag.ProductsCount);
+}
+
+<form id="filtersForm" class="hidden lg:block" >
+
+    <!-- Category for products -->
+    <div class="border-b border-gray-200 py-6">
+        <!-- Category Button with (+ -) icons -->
+        <h3 class="-my-3 flow-root">
+            <button type="button" class="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500" aria-controls="filter-section-1" aria-expanded="false">
+                <span class="font-medium text-gray-900">Categories</span>
+            </button>
+        </h3>
+
+        <!-- All Categories Options -->
+        <div class="pt-6" id="filter-section-1">
+            <div class="space-y-4">
+                <div class="flex items-center">
+                    <input id="men" name="category" value="men" type="checkbox" class="category h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    <label for="men" class="ml-3 text-sm text-gray-600">Men's</label>
+                </div>
+                <div class="flex items-center">
+                    <input id="women" name="category" value="women" type="checkbox" class="category h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    <label for="women" class="ml-3 text-sm text-gray-600">Women's</label>
+                </div>
+                <div class="flex items-center">
+                    <input id="kids" name="category" value="kids" type="checkbox" class="category h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    <label for="kids" class="ml-3 text-sm text-gray-600">Kids'</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Color Button Container -->
+    <div class="border-b border-gray-200 py-6">
+        <!-- Color Button  with (+ -) icons -->
+        <h3 class="-my-3 flow-root">
+            <button type="button" class="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500" aria-controls="filter-section-0" aria-expanded="false">
+                <span class="font-medium text-gray-900">Colors</span>
+            </button>
+        </h3>
+
+        <!-- All color options -->
+        <div class="pt-6" id="filter-section-0">
+            <div class="space-y-4">
+                <div class="flex items-center">
+                    <input id="white" name="color" value="white" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    <label for="white" class="ml-3 text-sm text-gray-600">White</label>
+                </div>
+                <div class="flex items-center">
+                    <input id="black" name="color" value="black" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    <label for="black" class="ml-3 text-sm text-gray-600">Black</label>
+                </div>
+                <div class="flex items-center">
+                    <input id="red" name="color" value="red" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    <label for="red" class="ml-3 text-sm text-gray-600">Red</label>
+                </div>
+                <div class="flex items-center">
+                    <input id="blue" name="color" value="blue" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    <label for="blue" class="ml-3 text-sm text-gray-600">Blue</label>
+                </div>
+                <div class="flex items-center">
+                    <input id="brown" name="color" value="brown" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    <label for="brown" class="ml-3 text-sm text-gray-600">Brown</label>
+                </div>
+                <div class="flex items-center">
+                    <input id="pink" name="color" value="pink" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    <label for="pink" class="ml-3 text-sm text-gray-600">Pink</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shoes Sizes Filter -->
+    <div class="border-b border-gray-200 py-6">
+        <!-- Size Button wih (+ -) icons -->
+        <h3 class="-my-3 flow-root">
+            <button type="button" class="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500" aria-controls="filter-section-2" aria-expanded="false">
+                <span class="font-medium text-gray-900">Size</span>
+            </button>
+        </h3>
+        <!-- All Size Options -->
+        <div class="pt-6" id="filter-section-2">
+            <div class="space-y-4">
+                <div class="flex items-center">
+                    <input id="xs" name="size" value="xs" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    <label for="xs" class="ml-3 text-sm text-gray-600">Extra Small (xs)</label>
+                </div>
+                <div class="flex items-center">
+                    <input id="sm" name="size" value="sm" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    <label for="sm" class="ml-3 text-sm text-gray-600">Small (sm)</label>
+                </div>
+                <div class="flex items-center">
+                    <input id="md" name="size" value="md" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    <label for="md" class="ml-3 text-sm text-gray-600">Medium (md)</label>
+                </div>
+                <div class="flex items-center">
+                    <input id="lg" name="size" value="lg" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    <label for="lg" class="ml-3 text-sm text-gray-600">Large (lg)</label>
+                </div>
+                <div class="flex items-center">
+                    <input id="xl" name="size" value="xl" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    <label for="xl" class="ml-3 text-sm text-gray-600">Extra Large (xl)</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="button ml-2 mt-4">Apply filters</button>
+</form>
+
+<script>
+    $(document).ready(function () {
+        // Function to get URL parameters
+        function getUrlParameters() {
+            const params = new URLSearchParams(window.location.search);
+            const parameters = {};
+            for (const [key, value] of params.entries()) {
+                if (!parameters[key]) {
+                    parameters[key] = [];
+                }
+                parameters[key].push(value);
+            }
+            return parameters;
+        }
+
+        // Function to apply URL parameters to form fields
+        function applyUrlParameters() {
+            const parameters = getUrlParameters();
+
+            // Check categories
+            if (parameters.category) {
+                parameters.category.forEach(function (category) {
+                    $(`#filtersForm input[name='category'][value='${category}']`).prop('checked', true);
+                });
+            }
+
+            // Check colors
+            if (parameters.color) {
+                parameters.color.forEach(function (color) {
+                    $(`#filtersForm input[name='color'][value='${color}']`).prop('checked', true);
+                });
+            }
+
+            // Check sizes
+            if (parameters.size) {
+                parameters.size.forEach(function (size) {
+                    $(`#filtersForm input[name='size'][value='${size}']`).prop('checked', true);
+                });
+            }
+
+            // Set search input
+            if (parameters.search) {
+                $('#searchInput').val(parameters.search[0]);
+            }
+        }
+
+        // Apply parameters on page load
+        applyUrlParameters();
+
+        // Submit form and update URL without reloading page
+        $("#filtersForm").submit(function (event) {
+            event.preventDefault();
+            const filtersForm = $("#filtersForm");
+            const productsGridElement = $("#productGrid");
+            const totalProductsElement = $("#totalProducts");
+            const searchInputElement = $("#searchInput");
+            const searchInputValue = searchInputElement.val();
+            let serializedData = filtersForm.serialize();
+
+            // Check if the searchInputValue is not empty
+            if (serializedData) {
+                serializedData += '&search=' + encodeURIComponent(searchInputValue);
+            } else {
+                serializedData += 'search=' + encodeURIComponent(searchInputValue);
+            }
+
+            console.log("Serialized Data: ", serializedData);
+
+            // Update the URL with the current filters
+            const newUrl = `${window.location.pathname}?${serializedData}`;
+            history.pushState(null, '', newUrl);
+
+            // Getting the count of filtered products
+            $.ajax({
+                type: "POST",
+                url: "/Products/GetFilteredProductsCount",
+                data: serializedData,
+                success: function (response) {
+                    if (response.result <= 0) {
+                        console.log("Total Products: ", response.result);
+                        totalProductsElement.html(`<strong>Total Products:</strong> 0${response.result}`);
+                        productsGridElement.html("<h1 class='text-3xl'><strong>Sorry, there are no products!!!<strong></h1>");
+                    } else {
+                        totalProductsElement.html(`<strong>Total Products:</strong> ${response.result <= 9 ? '0' + response.result : response.result}`);
+                        $.ajax({
+                            type: "POST",
+                            url: "/Products/GetFilteredProducts",
+                            data: serializedData,
+                            success: function (response) {
+                                productsGridElement.empty();
+                                productsGridElement.html(response);
+                            },
+                            error: function (response) {
+                                console.log("response: ", response);
+                            }
+                        });
+                    }
+                },
+                error: function (response) {
+                    console.log("response: ", response);
+                }
+            });
+        });
+    });
+
+</script>
+
+@* if (response.totalProducts <= 0) {
+    totalProductsElement.html(`<strong>Total Products:</strong> 0${response.totalProducts}`);
+    $("#productGrid").html("<h1 class='text-3xl'><strong>Sorry, there are no products!!!<strong></h1>");
+}
+else if (response.totalProducts > 0 && response.totalProducts <= 9) {
+    totalProductsElement.html(`<strong>Total Products:</strong> 0${response.totalProducts}`);
+    $("#productGrid").html(response.products);
+}
+else {
+    totalProductsElement.html(`<strong>Total Products:</strong> ${response.totalProducts}`);
+    $("#productGrid").html(response.products);
+}
+ *@

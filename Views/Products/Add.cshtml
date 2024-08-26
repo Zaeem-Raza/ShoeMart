@@ -1,0 +1,98 @@
+﻿@model ShoeMart.Models.Entities.Products;
+
+<section class="min-h-screen flex justify-center items-center bg-white">
+    <div class="w-full max-w-md mx-auto bg-white rounded-lg shadow-xl dark:bg-gray-800 my-8">
+        <div class="px-4 py-6">
+            @* Avatar *@
+            <div class="flex items-center justify-center">
+                <img src="~/images/running-shoes.png" alt="Avatar" class="object-cover w-12 h-12 rounded-full" />
+            </div>
+            <h3 class="mt-3 text-xl font-medium text-center text-black dark:text-gray-200">Add Product</h3>
+            
+
+            @* Form *@
+            <form action="/Products/Add" method="post" enctype="multipart/form-data">
+                @* Name *@
+                <div class="w-full mt-4">
+                    <input type="text" name="Name" placeholder="Name" required class="form-input-style" />
+                </div>
+
+                @* Price *@
+                <div class="w-full mt-4">
+                    <input type="number" name="Price" placeholder="Price" required class="form-input-style" />
+                </div>
+
+                @* Size Select Attribute *@ 
+                <div class="w-full mt-4">
+                    <select name="Size" required class="form-input-style">
+                        <option value="xs">Extra Small (xs)</option>
+                        <option value="sm">Small (sm)</option>
+                        <option value="md">Medium (md)</option>
+                        <option value="lg">Large (lg)</option>
+                        <option value="xl">Extra Large (xl)</option>
+                    </select>
+                </div>
+
+                @* Category Size Attribute *@
+                <div class="w-full mt-4">
+                    <select name="Category" required class="form-input-style">
+                        <option value="men">Men's</option>
+                        <option value="women">Women's</option>
+                        <option value="kids">Kids'</option>
+                    </select>
+                </div>
+
+                @* Stock *@
+                <div class="w-full mt-4">
+                    <input type="number" name="Stock" placeholder="Stock" required class="form-input-style" />
+                </div>
+
+                @* Description *@
+                <div class="w-full mt-4">
+                    <textarea type="text" name="Description" placeholder="Description" required class="form-input-style"></textarea>
+                </div>
+
+                @* Image Upload *@
+                <div class="w-full mt-4">
+                    <input type="file" name="Image" required class="form-input-style" />
+                </div>
+
+                @* Colors  *@
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div class="w-full mt-4">
+                        <input type="checkbox" id="white" name="color" value="white" />
+                        <label for="white">White</label>
+                    </div>
+                    <div class="w-full mt-4">
+                        <input type="checkbox" id="black" name="color" value="black" />
+                        <label for="black">Black</label>
+                    </div>
+                    <div class="w-full mt-4">
+                        <input type="checkbox" id="red" name="color" value="red" />
+                        <label for="red">Red</label>
+                    </div>
+                    <div class="w-full mt-4">
+                        <input type="checkbox" id="blue" name="color" value="blue" />
+                        <label for="blue">Blue</label>
+                    </div>
+                    <div class="w-full mt-4">
+                        <input type="checkbox" id="brown" name="color" value="brown" />
+                        <label for="brown">Brown</label>
+                    </div>
+                    <div class="w-full mt-4">
+                        <input type="checkbox" id="pink" name="color" value="pink" />
+                        <label for="pink">Pink</label>
+                    </div>
+                </div>
+
+                <!-- Button -->
+                <div class="flex items-center justify-end mt-4">
+                    <a href="#" class="text-sm text-gray-600 dark:text-gray-200 hover:text-gray-500 hidden"></a>
+                    <button class="button">
+                        Add
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

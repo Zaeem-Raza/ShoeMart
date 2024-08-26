@@ -1,0 +1,223 @@
+﻿@model IEnumerable<ShoeMart.Models.Entities.CartItem>;
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<div class="min-h-screen py-8 bg-white">
+    <div class="container px-4">
+        <h1 class="text-2xl font-semibold mb-4">Shopping Cart</h1>
+        <div class="flex flex-col md:flex-row gap-4">
+            <!-- Product Container -->
+            <div class="w-full md:max-w-6xl">
+                <button class="button">
+                    <a href="/Products/Index">Back to Products</a>
+                    </button>
+                <div class="bg-white rounded-lg shadow-lg p-6 mb-4">
+                    <table class="w-full">
+                        <thead>
+                            <tr>
+                                <th class="text-left font-semibold">Product</th>
+                                <th class="text-left font-semibold">Price</th>
+                                <th class="text-left font-semibold">Quantity</th>
+                                <th class="text-left font-semibold">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!--Loop for items in the cart-->
+                            @foreach(var item in Model)
+                            {
+                                var total = item.Price * item.CurrentCount;
+                                
+                                <tr id="@item.Id" class="cartItem border-b">
+                                    <td class="py-4">
+                                        <div class="flex items-center">
+                                            <img class="h-16 w-16 mr-4 rounded-md" src="@item.Image" alt="Product image">
+                                            <span class="font-semibold">@item.Name</span>
+                                        </div>
+                                    </td>
+                                    <td class="priceParent py-4">$
+                                        <span class="price">@item.Price</span>
+                                    </td>
+
+                                    <td class="py-4">
+                                        <div class="flex items-center">
+                                            <button class="decrement border rounded-md py-2 px-4 mr-2 hover:bg-gray-200 ">-</button>
+                                            <span class="currentCount text-center w-8">@item.CurrentCount</span>
+                                            <button class="increment border rounded-md py-2 px-4 ml-2 hover:bg-gray-200 ">+</button>
+                                        </div>
+                                    </td>
+                                    <td class="stock hidden">@item.Stock</td>
+                                    <td class="totalPriceParent py-4">$
+                                        <span class="totalPrice">@total</span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Summary -->
+            <div class="md:w-1/4">
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-lg font-semibold mb-4">Summary</h2>
+                    <div class="flex justify-between mb-2">
+                        <span>Subtotal</span>
+                        <span>$
+                            <span id="subtotal">0.00</span>
+                        </span>
+                    </div>
+                    <div class="flex justify-between mb-2">
+                        <span>Taxes</span>
+                        <span>$
+                            <span id="taxes">0.00</span>
+                        </span>
+                    </div>
+                    <div class="flex justify-between mb-2">
+                        <span>Shipping</span>
+                        <span>$
+                            <span id="shipping">0.00</span>
+                        </span>
+                    </div>
+                    <hr class="my-2">
+                    <div class="flex justify-between mb-2">
+                        <span class="font-semibold">Total</span>
+                        <span class="font-semibold">$
+                            <span id="grandTotal">21.98</span>
+                        </span>
+                    </div>
+                    <button class="bg-black text-white py-2 px-4 rounded-lg mt-4 w-full button-hover">Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        calculateSummary();
+
+        $(".increment").click(function () {
+            // Getting all the variables
+            const incrementElementBtn = $(this);
+            const parentElement = $(this).closest(".cartItem");
+            const parentElementId = parentElement.attr("id");
+            const currentCountElement = $(this).siblings(".currentCount");
+            const priceElement = parentElement.children(".priceParent").children(".price");
+            const stockElement = parentElement.children(".stock");
+            const totalPriceElement = parentElement.children(".totalPriceParent").children(".totalPrice");
+
+            // Converting the text into numbers of all the variables
+            let currentCount = parseFloat(currentCountElement.text());
+            let price = parseFloat(priceElement.text());
+            let stock = parseFloat(stockElement.text());
+            let totalPrice = parseFloat(totalPriceElement.text());
+
+            if (currentCount < stock) {
+                currentCount += 1;
+                totalPrice += price;
+                currentCountElement.text(currentCount.toString());
+                totalPriceElement.text(totalPrice.toFixed(2));
+
+                // Calculating the total from scratch
+                calculateSummary();
+
+                // Sending an AJAX request to update the session storage
+                $.ajax({
+                    type: "POST",
+                    url: "/Products/AddToCart",
+                    data: { id: parentElementId },
+                    success: function (response) {
+                        console.log(response.result, response.totalItems);
+                    },
+                    error: function (response) {
+                        console.log(response.result, response.totalItems);
+                    }
+                });
+            } else {
+                incrementElementBtn.prop('disabled', true);
+            }
+        });
+
+        $(".decrement").click(function () {
+            const decrementElementBtn = $(this);
+            const parentElement = $(this).closest(".cartItem");
+            const parentElementId = parentElement.attr("id");
+            const currentCountElement = $(this).siblings(".currentCount");
+            const priceElement = parentElement.children(".priceParent").children(".price");
+            const totalPriceElement = parentElement.children(".totalPriceParent").children(".totalPrice");
+
+            let currentCount = parseFloat(currentCountElement.text());
+            let price = parseFloat(priceElement.text());
+            let totalPrice = parseFloat(totalPriceElement.text());
+
+            if (currentCount > 1) {
+                currentCount -= 1;
+                totalPrice -= price;
+                currentCountElement.text(currentCount.toString());
+                totalPriceElement.text(totalPrice.toFixed(2));
+
+                // Calculating the total from scratch
+                calculateSummary();
+
+                // Sending an AJAX request to update the session storage
+                $.ajax({
+                    type: "POST",
+                    url: "/Products/RemoveFromCart",
+                    data: { id: parentElementId },
+                    success: function (response) {
+                        console.log(response.result, response.totalItems);
+                    },
+                    error: function (response) {
+                        console.log(response.result, response.totalItems);
+                    }
+                });
+
+            } else if (currentCount === 1) {
+                // When currentCount becomes 0 after decrement, remove the item from the DOM
+                parentElement.remove();
+
+                // Calculating the total from scratch
+                calculateSummary();
+
+                // Sending an AJAX request to update the session storage
+                $.ajax({
+                    type: "POST",
+                    url: "/Products/RemoveFromCart",
+                    data: { id: parentElementId },
+                    success: function (response) {
+                        console.log(response.result, response.totalItems);
+                    },
+                    error: function (response) {
+                        console.log(response.result, response.totalItems);
+                    }
+                });
+            }
+        });
+
+        function calculateSummary() {
+            const subtotalElement = $("#subtotal");
+            const taxesElement = $("#taxes");
+            const shippingElement = $("#shipping");
+            const grandTotalElement = $("#grandTotal");
+
+            let subtotal = 0;
+            let totalPrice;
+
+            $(".cartItem").each(function () {
+                totalPrice = parseFloat($(this).find(".totalPrice").text());
+                subtotal += totalPrice;
+            });
+
+            const taxes = subtotal * 0.0;
+            const shipping = 0;
+            const grandTotal = subtotal + taxes + shipping;
+
+            subtotalElement.text(subtotal.toFixed(2));
+            taxesElement.text(taxes.toFixed(2));
+            shippingElement.text(shipping.toFixed(2));
+            grandTotalElement.text(grandTotal.toFixed(2));
+        }
+    });
+</script>
+
+
+

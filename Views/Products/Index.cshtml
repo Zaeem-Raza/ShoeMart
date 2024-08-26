@@ -1,0 +1,69 @@
+﻿@model IEnumerable<ShoeMart.Models.Entities.Products>;
+
+@{
+    int products = Model.Count();
+    string totalProducts = products <= 9 ? $"0{Convert.ToString(Model.Count())}" : Convert.ToString(Model.Count());
+}
+
+<section class="bg-white">
+    <!-- Navbar -->
+   @Html.Partial("_NavbarView")
+
+    <!-- Main Section -->
+    <div class="w-full px-4 md:px-6 lg:px-8 lg:max-w-6xl mx-auto py-8">
+        @* Desktop Layout View *@
+        <main class="overflow-hidden">
+            @if (ViewBag.Role == "Admin")
+            {
+                <button class="button ml-2 my-4">
+                    <a href="/Products/Add">Add New Product</a>
+                </button>
+                <button class="button ml-2 my-4">
+                    <a href="/Products/Load">Load Products</a>
+                </button>
+            }
+            
+            @* New Arrivals Container *@
+            <div class="flex items-baseline justify-between border-b border-gray-200 pb-6">
+                <h1 class="text-4xl font-bold tracking-tight text-gray-900">New Arrivals</h1>
+
+                @* Right Container after New Arrivals *@
+                <div class="flex items-center">
+                    @* Sort Button & Sort Filters Pop Up *@
+                    <div class="relative inline-block text-left">
+
+                    </div>
+
+                    <!-- Total Products returned -->
+                    <span id="totalProducts" class="ml-4"><strong>Total Products:</strong> @totalProducts</span>
+
+                    @* Filters Icon for small devices *@
+                    <button type="button" class="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden">
+                        <span class="sr-only">Filters</span>
+                        <svg class="h-5 w-5" aria-hidden="true" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M2.628 1.601C5.028 1.206 7.49 1 10 1s4.973.206 7.372.601a.75.75 0 01.628.74v2.288a2.25 2.25 0 01-.659 1.59l-4.682 4.683a2.25 2.25 0 00-.659 1.59v3.037c0 .684-.31 1.33-.844 1.757l-1.937 1.55A.75.75 0 018 18.25v-5.757a2.25 2.25 0 00-.659-1.591L2.659 6.22A2.25 2.25 0 012 4.629V2.34a.75.75 0 01.628-.74z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+
+            <!-- Left Container all filters container -->
+            <section aria-labelledby="products-heading" class="pt-6">
+                <h2 id="products-heading" class="sr-only">Products</h2>
+
+                <!-- Main Content Section -->
+                <div class="grid grid-cols-1 gap-x-8 lg:grid-cols-4">
+                    <!-- All types of Filters -->
+                   @Html.Partial("_FiltersView")
+
+                    <!-- Product grid -->
+                    <div id="productGrid" class="lg:col-span-3 grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        @Html.Partial("_ProductsListView", Model)
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    @Html.Partial("_FooterView")
+</section>

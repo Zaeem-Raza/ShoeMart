@@ -1,0 +1,20 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .container {
+        @apply mx-auto px-6 w-full md:max-w-6xl lg:max-w-7xl;
+    }
+    .button {
+        @apply px-4 py-[8px] text-sm font-medium text-white bg-black rounded-lg focus:ring-4 focus:outline-none hover:cursor-pointer hover:bg-gray-600 hover:scale-105 transition-all
+    }
+    .button-hover {
+        @apply hover:cursor-pointer hover:bg-gray-600 hover:scale-105 transition-all
+    }
+
+    .form-input-style {
+        @apply block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-500 bg-white border rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-blue-300
+    }
+
+}
