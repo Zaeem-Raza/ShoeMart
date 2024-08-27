@@ -4,9 +4,10 @@ using ShoeMart.Models.Entities;
 
 namespace ShoeMart.Controllers
 {
+    [Authorize]
     public class ShoppingCartController : Controller
     {
-        [Authorize]
+        
         public IActionResult Index()
         {
             // get items from the sessions 
@@ -30,7 +31,7 @@ namespace ShoeMart.Controllers
 
             return View(cartItems);
         }
-        [Authorize]
+        
         public IActionResult Payment()
         {
             return View();

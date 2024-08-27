@@ -10,6 +10,7 @@ using System.Globalization;
 
 namespace ShoeMart.Controllers
 {
+    [Authorize]
     public class ProductsController : Controller
     {
         private IProductRepository repo;
@@ -22,7 +23,7 @@ namespace ShoeMart.Controllers
 
         }
 
-        [Authorize]
+        
         public async Task<IActionResult> IndexAsync(string[] category, string[] color, string[] size, string search)
         {
             // Apply filters if any are provided
@@ -68,7 +69,7 @@ namespace ShoeMart.Controllers
             return View(products);
         }
 
-        [Authorize]
+        
         [HttpPost]
         public IActionResult Index(string[] category, string[] color, string[] size)
         {
@@ -97,26 +98,26 @@ namespace ShoeMart.Controllers
             return View();
         }
 
-        [Authorize]
+        
         public IActionResult ProductDetails(string id)
         {
             Products product = repo.GetById(id);
             return View(product);
         }
-        [Authorize]
+        
         public IActionResult Add() {
 
             return View();
         }
 
-        [Authorize]
+        
         public IActionResult Load()
         {
             repo.LoadProducts();
             return RedirectToAction("Index", "Products");
         }
 
-        [Authorize]
+        
         [HttpPost]
         public IActionResult Add(ProductsFormModal p)
         {
@@ -156,7 +157,7 @@ namespace ShoeMart.Controllers
             return RedirectToAction("Index", "Products");
         }
 
-        [Authorize]
+        
         public IActionResult Delete(string id)
         {
             // Deleting the product with given id
@@ -171,14 +172,14 @@ namespace ShoeMart.Controllers
             }
         }
 
-        [Authorize]
+        
 		public IActionResult Update(string id)
 		{
             Products product = repo.GetById(id);
             return View(product);  
 		}
         
-        [Authorize]
+       
         [HttpPost]
         public IActionResult Update(ProductsFormModal p)
         {
@@ -214,7 +215,7 @@ namespace ShoeMart.Controllers
             return RedirectToAction("Index", "Products");
         }
 
-        [Authorize]
+       
         public  IActionResult GetCount()
         {
             IEnumerable<Products> products = repo.GetAll();
@@ -222,7 +223,7 @@ namespace ShoeMart.Controllers
             return Json(new { result = count });
         }
 
-        [Authorize]
+        
         public async Task<IActionResult> GetFilteredProducts(string[] category, string[] color, string[] size, string search)
         {
             // Checking if the user is logged in or not
@@ -270,7 +271,6 @@ namespace ShoeMart.Controllers
             return PartialView("_ProductsListView", products);
         }
 
-        [Authorize]
         public IActionResult GetFilteredProductsCount(string[] category, string[] color, string[] size, string search)
         {
 
@@ -301,7 +301,6 @@ namespace ShoeMart.Controllers
             return Json(new { result = count });
         }
 
-        [Authorize]
         public IActionResult AddToCart(string id)
         {
             Products product = repo.GetById(id);
@@ -332,7 +331,6 @@ namespace ShoeMart.Controllers
             return Json(new { result = true, totalItems = count });
         }
 
-        [Authorize]
         public IActionResult RemoveFromCart(string id)
         {
             // get product from the session and decrement the current quantity 
